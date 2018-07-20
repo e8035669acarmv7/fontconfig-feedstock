@@ -16,7 +16,7 @@ source:
     - fcf.patch       # [linux]
 
 build:
-  number: 2
+  number: 3
   skip: True                       # [win]
   binary_has_prefix_files:         # [linux]
     - lib/libfontconfig.so.1.11.1  # [linux]
