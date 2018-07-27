@@ -8,42 +8,44 @@ source:
   url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-{{ version }}.tar.bz2
   sha256: 91dde8492155b7f34bb95079e79be92f1df353fcc682c19be90762fd3e12eeb9
   patches:
-    # Apply upstream patch to ensure macOS's UUID is used.
-    # ref: https://bugs.freedesktop.org/show_bug.cgi?id=105366
-    - bug_105366.patch
     # This patch won't be submitted upstream. It's use here is to ensure the prefix used
     # to refer to the `fonts.conf` file.
     - fcf.patch       # [linux]
 
 build:
-  number: 3
-  skip: True                       # [win]
-  binary_has_prefix_files:         # [linux]
-    - lib/libfontconfig.so.1.11.1  # [linux]
+  number: 4
+  skip: True                      # [win]
+  binary_has_prefix_files:        # [unix]
+    - lib/libfontconfig.so.1.*    # [linux]
+    - lib/libfontconfig.*.dylib*  # [osx]
+  run_exports:
+    # remove symbols basically never (once, in 2006).
+    #    https://abi-laboratory.pro/tracker/timeline/fontconfig/
+    - {{ pin_subpackage('fontconfig') }}
 
 requirements:
   build:
     - {{ compiler("c") }}
+    - make
     - pkg-config
     - gperf
-    - automake
-    - gettext
+    - gettext  # [not win]
     - libtool
-
+    - automake
+    - autoconf
   host:
     - freetype
-    - libiconv
+    - icu  # [not win]
     - libpng
     - libxml2
-    - icu      # [not win]
+    - libiconv  # [not linux and not win]
     - libuuid  # [linux]
-
   run:
     - freetype
-    - libiconv
+    - icu  # [not win]
     - libpng
     - libxml2
-    - icu      # [not win]
+    - libiconv  # [not linux and not win]
     - libuuid  # [linux]
 
 test:
@@ -60,21 +62,23 @@ test:
 
     # Test for libraries.
     - test -f "${PREFIX}/lib/libfontconfig.a"
-    - test -f "${PREFIX}/lib/libfontconfig.dylib"               # [osx]
-    - test -f "${PREFIX}/lib/libfontconfig.so"                  # [linux]
-
-    # Check macOS uses the system UUID.
-    - '! grep -q uuid "${PREFIX}/lib/pkgconfig/fontconfig.pc"'  # [osx]
+    - test -f "${PREFIX}/lib/libfontconfig${SHLIB_EXT}"  # [not win]
 
 about:
   home: http://www.freedesktop.org/wiki/Software/fontconfig/
   license: MIT
   license_file: COPYING
-  summary: 'A library for configuring and customizing font access.'
+  summary: 'A library for configuring and customizing font access'
+  description: |
+    Fontconfig is a library designed to provide system-wide font configuration,
+    customization and application access.
+  doc_url: https://www.freedesktop.org/software/fontconfig/fontconfig-user.html
+  dev_url: https://cgit.freedesktop.org/fontconfig/
 
 extra:
   recipe-maintainers:
     - ccordoba12
     - jakirkham
+    - mingwandroid
     - ocefpaf
     - pkgw

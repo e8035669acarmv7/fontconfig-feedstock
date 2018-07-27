@@ -1,11 +1,11 @@
+VERBOSE_AT:
+- V=1
 c_compiler:
 - toolchain_c
 freetype:
 - 2.8.1
 icu:
 - '58'
-libiconv:
-- '1.15'
 libpng:
 - 1.6.34
 libxml2:
@@ -15,9 +15,9 @@ pin_run_as_build:
     max_pin: x.x
   icu:
     max_pin: x
-  libiconv:
-    max_pin: x.x
   libpng:
     max_pin: x.x
   libxml2:
     max_pin: x.x
+target_platform:
+- linux-64

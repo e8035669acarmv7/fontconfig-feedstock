@@ -7,8 +7,10 @@ Package license: MIT
 
 Feedstock license: BSD 3-Clause
 
-Summary: A library for configuring and customizing font access.
+Summary: A library for configuring and customizing font access
 
+Fontconfig is a library designed to provide system-wide font configuration,
+customization and application access.
 
 
 Current build status

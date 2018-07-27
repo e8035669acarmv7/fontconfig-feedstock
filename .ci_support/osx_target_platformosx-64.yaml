@@ -1,5 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
+VERBOSE_AT:
+- V=1
 c_compiler:
 - toolchain_c
 freetype:
@@ -27,3 +29,5 @@ pin_run_as_build:
     max_pin: x.x
   libxml2:
     max_pin: x.x
+target_platform:
+- osx-64
