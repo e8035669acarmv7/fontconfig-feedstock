@@ -1,0 +1,13 @@
+diff --git a/test/Makefile.am b/test/Makefile.am
+index 75e326c..b72a78d 100644
+--- a/test/Makefile.am
++++ b/test/Makefile.am
+@@ -11,7 +11,7 @@ AM_TESTS_ENVIRONMENT= \
+ BUILT_SOURCES = out.expected
+ 
+ SH_LOG_COMPILER = sh
+-TESTS=run-test.sh
++TESTS=
+ 
+ TESTDATA=4x6.pcf 8x16.pcf out.expected fonts.conf.in
+ 
