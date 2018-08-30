@@ -1,4 +1,5 @@
 {% set version = "2.13.0" %}
+{% set am_version = "1.15" %} # keep synchronized with build.sh
 
 package:
   name: fontconfig
@@ -11,10 +12,19 @@ source:
     # This patch won't be submitted upstream. It's use here is to ensure the prefix used
     # to refer to the `fonts.conf` file.
     - fcf.patch       # [linux]
+    # Windows patches from https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-fontconfig
+    - 0001-fix-config-linking.all.patch  # [win]
+    - 0002-fix-mkdir.mingw.patch         # [win]
+    - 0003-fix-link-libintl.patch        # [win]
+    - 0004-fix-mkdtemp.mingw.patch       # [win]
+    - 0005-fix-setenv.mingw.patch        # [win]
+    - 0007-pkgconfig.mingw.patch         # [win]
+    # conda-forge/msys2 specifics
+    - msys.patch           # [win]
+    - windows-tests.patch  # [win]
 
 build:
   number: 5
-  skip: True                      # [win]
   binary_has_prefix_files:        # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]
@@ -25,15 +35,25 @@ build:
 
 requirements:
   build:
-    - {{ compiler("c") }}
+    - m2-autoconf  # [win]
+    - m2-automake{{ am_version }}  # [win]
+    - m2-gperf  # [win]
+    - m2-libtool  # [win]
+    - m2-patch  # [win]
+    - m2w64-pkg-config  # [win]
+    - m2w64-xz  # [win]
+    - pkg-config  # [not win]
+    - posix  # [win]
+    - {{ compiler('c') }}        # [unix]
+    - {{ compiler('m2w64_c') }}  # [win]
     - make
-    - pkg-config
-    - gperf
-    - gettext  # [not win]
-    - libtool
-    - automake
-    - autoconf
+    - gperf     # [not win]
+    - gettext   # [not win]
+    - libtool   # [not win]
+    - automake  # [not win]
+    - autoconf  # [not win]
   host:
+    - m2w64-gettext  # [win]
     - freetype
     - icu  # [not win]
     - libpng
@@ -41,6 +61,7 @@ requirements:
     - libiconv  # [not linux and not win]
     - libuuid  # [linux]
   run:
+    - m2w64-gettext  # [win]
     - freetype
     - icu  # [not win]
     - libpng
@@ -61,8 +82,12 @@ test:
     - fc-validate --help
 
     # Test for libraries.
-    - test -f "${PREFIX}/lib/libfontconfig.a"
-    - test -f "${PREFIX}/lib/libfontconfig${SHLIB_EXT}"  # [not win]
+    {% set lib_idents = [ "fontconfig" ] %}
+    {% for lib_ident in lib_idents %}
+    - test -f $PREFIX/lib/lib{{ lib_ident }}.a  # [not win]
+    - test -f $PREFIX/lib/lib{{ lib_ident }}${SHLIB_EXT}  # [not win]
+    - if not exist %PREFIX%/Library/lib/lib{{ lib_ident }}.a exit /b 1  # [win]
+    {% endfor %}
 
 about:
   home: http://www.freedesktop.org/wiki/Software/fontconfig/
