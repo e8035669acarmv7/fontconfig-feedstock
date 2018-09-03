@@ -24,7 +24,7 @@ source:
     - windows-tests.patch  # [win]
 
 build:
-  number: 5
+  number: 6
   binary_has_prefix_files:        # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]

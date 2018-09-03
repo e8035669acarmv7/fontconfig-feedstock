@@ -87,3 +87,6 @@ rm -Rf "$uprefix"/var/cache/fontconfig
 # Leave cache directory, in case it's needed
 mkdir -p "$uprefix"/var/cache/fontconfig
 touch "$uprefix"/var/cache/fontconfig/.leave
+
+# We can remove this when we start using the new conda-build.
+find $PREFIX -name '*.la' -delete
