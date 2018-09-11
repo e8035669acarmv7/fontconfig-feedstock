@@ -63,13 +63,8 @@ configure_args=(
     --disable-docs
 )
 
-# See:
-# https://github.com/Homebrew/homebrew-core/blob/master/Formula/fontconfig.rb
-# https://bugs.freedesktop.org/show_bug.cgi?id=105366
+# See: https://github.com/Homebrew/homebrew-core/blob/master/Formula/fontconfig.rb
 if [[ ${target_platform} == osx-64 ]]; then
-  export UUID_CFLAGS=" "
-  export UUID_LIBS=" "
-  sed -i -e 's|PKGCONFIG_REQUIRES_PRIVATELY=\"\$PKGCONFIG_REQUIRES_PRIVATELY uuid\"||g' configure
   configure_args+=(
       --with-add-fonts="$uprefix"/fonts,/System/Library/Fonts,/Library/Fonts,~/Library/Fonts,/System/Library/Assets/com_apple_MobileAsset_Font3,/System/Library/Assets/com_apple_MobileAsset_Font4
   )
