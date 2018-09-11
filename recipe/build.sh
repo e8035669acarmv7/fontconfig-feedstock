@@ -38,7 +38,21 @@ if [ -n "$CYGWIN_PREFIX" ] ; then
     (cd / && mkdir -p mingw64/share/gettext && cp -r mingw-w64/share/gettext/* mingw64/share/gettext/)
 
     export FREETYPE_CFLAGS="-I$mprefix/include" FREETYPE_LIBS="-L$mprefix/bin -L$mprefix/lib -lfreetype"
-    export LIBXML2_CFLAGS="-I$mprefix/include" LIBXML2_LIBS="-L$mprefix/bin -L$mprefix/lib -lxml2"
+    export LIBXML2_CFLAGS="-I$mprefix/include" LIBXML2_LIBS="-L$mprefix/bin -L$mprefix/lib -llibxml2"
+
+    export BUILD=x86_64-pc-mingw64
+    export HOST=x86_64-pc-mingw64
+
+    export CC="cl"
+    export LD="link"
+    export CPP="cl -nologo -E"
+
+    # /GL messes up Libtool's identification of how the linker works;
+    # it parses dumpbin output and: https://stackoverflow.com/a/11850034/3760486
+    export CFLAGS=$(echo " $CFLAGS " |sed -e "s, [-/]GL ,,")
+
+    # Include POSIX compatibility headers from Shift Media Project:
+    export CFLAGS="$CFLAGS -I$(pwd -W)/SMP"
 fi
 autoreconf $autoreconf_args
 
@@ -63,6 +77,8 @@ elif [ -n "$CYGWIN_PREFIX" ] ; then
   export PKG_CONFIG_LIBDIR=$uprefix/lib/pkgconfig:$uprefix/share/pkgconfig
   configure_args+=(
       --disable-shared
+      --build=$BUILD
+      --host=$HOST
   )
 else
   configure_args+=(
@@ -87,6 +103,3 @@ rm -Rf "$uprefix"/var/cache/fontconfig
 # Leave cache directory, in case it's needed
 mkdir -p "$uprefix"/var/cache/fontconfig
 touch "$uprefix"/var/cache/fontconfig/.leave
-
-# We can remove this when we start using the new conda-build.
-find $PREFIX -name '*.la' -delete

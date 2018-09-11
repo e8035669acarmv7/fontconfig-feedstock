@@ -1,5 +1,7 @@
-{% set version = "2.13.0" %}
+{% set version = "2.13.1" %}
 {% set am_version = "1.15" %} # keep synchronized with build.sh
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: fontconfig
@@ -7,24 +9,19 @@ package:
 
 source:
   url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-{{ version }}.tar.bz2
-  sha256: 91dde8492155b7f34bb95079e79be92f1df353fcc682c19be90762fd3e12eeb9
+  sha256: f655dd2a986d7aa97e052261b36aa67b0a64989496361eca8d604e6414006741
   patches:
     # This patch won't be submitted upstream. It's use here is to ensure the prefix used
     # to refer to the `fonts.conf` file.
     - fcf.patch       # [linux]
-    # Windows patches from https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-fontconfig
-    - 0001-fix-config-linking.all.patch  # [win]
-    - 0002-fix-mkdir.mingw.patch         # [win]
-    - 0003-fix-link-libintl.patch        # [win]
-    - 0004-fix-mkdtemp.mingw.patch       # [win]
-    - 0005-fix-setenv.mingw.patch        # [win]
-    - 0007-pkgconfig.mingw.patch         # [win]
-    # conda-forge/msys2 specifics
-    - msys.patch           # [win]
-    - windows-tests.patch  # [win]
+    - 0001-Disable-test-bz106632.patch                                 # [win or osx]
+    - 0002-Disable-some-more-Windows-unfriendly-tests.patch            # [win]
+    - 0003-Import-MSVC-compatibility-files-from-ShiftMediaProje.patch  # [win]
+    - 0004-SMB-getopt.h-also-add-this.patch                            # [win]
+    - 0005-Make-private-pkg-config-requirements-public.patch           # [win]
 
 build:
-  number: 6
+  number: 0
   binary_has_prefix_files:        # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]
@@ -35,39 +32,33 @@ build:
 
 requirements:
   build:
-    - m2-autoconf  # [win]
-    - m2-automake{{ am_version }}  # [win]
-    - m2-gperf  # [win]
-    - m2-libtool  # [win]
-    - m2-patch  # [win]
-    - m2w64-pkg-config  # [win]
-    - m2w64-xz  # [win]
-    - pkg-config  # [not win]
-    - posix  # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake{{ am_version }}  # [win]
+    - automake                           # [not win]
+    - gettext
+    - {{posix}}gperf
+    - {{posix}}libtool
+    - {{posix}}patch
+    - {{native}}binutils                 # [win]
+    - {{native}}pkg-config
+    - {{native}}xz
+    - posix                              # [win]
+    - {{ compiler('c') }}
     - make
-    - gperf     # [not win]
-    - gettext   # [not win]
-    - libtool   # [not win]
-    - automake  # [not win]
-    - autoconf  # [not win]
   host:
-    - m2w64-gettext  # [win]
     - freetype
-    - icu  # [not win]
+    - icu
     - libpng
     - libxml2
-    - libiconv  # [not linux and not win]
-    - libuuid  # [linux]
+    - libiconv  # [not linux]
+    - libuuid   # [linux]
   run:
-    - m2w64-gettext  # [win]
     - freetype
-    - icu  # [not win]
+    - icu
     - libpng
     - libxml2
-    - libiconv  # [not linux and not win]
-    - libuuid  # [linux]
+    - libiconv  # [not linux]
+    - libuuid   # [linux]
 
 test:
   commands:
@@ -86,7 +77,7 @@ test:
     {% for lib_ident in lib_idents %}
     - test -f $PREFIX/lib/lib{{ lib_ident }}.a  # [not win]
     - test -f $PREFIX/lib/lib{{ lib_ident }}${SHLIB_EXT}  # [not win]
-    - if not exist %PREFIX%/Library/lib/lib{{ lib_ident }}.a exit /b 1  # [win]
+    - if not exist %PREFIX%/Library/lib/{{ lib_ident }}.lib exit /b 1  # [win]
     {% endfor %}
 
 about:
