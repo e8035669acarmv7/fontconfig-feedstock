@@ -43,7 +43,8 @@ requirements:
     - {{native}}pkg-config
     - {{native}}xz
     - posix                              # [win]
-    - {{ compiler('c') }}
+    - {{ compiler('c') }}                # [not win]
+    - vs2015_win-64                      # [win] -- no VS2008 since it's too much of a hassle to support
     - make
   host:
     - freetype
