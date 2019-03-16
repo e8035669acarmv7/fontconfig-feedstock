@@ -85,7 +85,7 @@ fi
 ./configure "${configure_args[@]}"
 
 make -j${CPU_COUNT} ${VERBOSE_AT}
-if [ "${target_platform}" == "linux-aarch64" ] | [ "${target_platform}" == "linux-ppc64le" ]; then
+if [ "${target_platform}" == "linux-aarch64" ] || [ "${target_platform}" == "linux-ppc64le" ]; then
     make check ${VERBOSE_AT} || true
 else
     make check ${VERBOSE_AT}
