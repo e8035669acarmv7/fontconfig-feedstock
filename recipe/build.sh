@@ -85,7 +85,12 @@ fi
 ./configure "${configure_args[@]}"
 
 make -j${CPU_COUNT} ${VERBOSE_AT}
-make check ${VERBOSE_AT}
+if [ "${target_platform}" == "linux-aarch64" ] || [ "${target_platform}" == "linux-ppc64le" ]; then
+    make check ${VERBOSE_AT} || true
+else
+    make check ${VERBOSE_AT}
+fi
+
 make install
 
 # Remove any new Libtool files we may have installed. It is intended that
