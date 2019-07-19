@@ -7,7 +7,7 @@ channel_targets:
 freetype:
 - 2.9.1
 icu:
-- '58'
+- '64.2'
 libiconv:
 - '1.15'
 libpng:
