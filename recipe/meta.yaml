@@ -21,7 +21,7 @@ source:
     - 0005-Make-private-pkg-config-requirements-public.patch           # [win]
 
 build:
-  number: 1001
+  number: 1002
   binary_has_prefix_files:        # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]
@@ -32,16 +32,16 @@ build:
 
 requirements:
   build:
-    - {{posix}}autoconf
-    - {{posix}}automake{{ am_version }}  # [win]
+    - {{ posix }}autoconf
+    - {{ posix }}automake{{ am_version }}  # [win]
     - automake                           # [not win]
     - gettext
-    - {{posix}}gperf
-    - {{posix}}libtool
-    - {{posix}}patch
-    - {{native}}binutils                 # [win]
-    - {{native}}pkg-config
-    - {{native}}xz
+    - {{ posix }}gperf
+    - {{ posix }}libtool
+    - {{ posix }}patch
+    - {{ native }}binutils                 # [win]
+    - {{ native }}pkg-config
+    - {{ native }}xz
     - posix                              # [win]
     - {{ compiler('c') }}                # [not win]
     - vs2015_win-64                      # [win] -- no VS2008 since it's too much of a hassle to support
