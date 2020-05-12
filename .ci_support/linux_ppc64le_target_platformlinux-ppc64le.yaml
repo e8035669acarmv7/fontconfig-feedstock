@@ -13,9 +13,9 @@ docker_image:
 freetype:
 - 2.9.1
 icu:
-- '64.2'
+- '67'
 libpng:
-- 1.6.36
+- '1.6'
 libuuid:
 - 2.32.1
 libxml2:
