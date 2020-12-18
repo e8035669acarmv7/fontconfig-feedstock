@@ -21,7 +21,7 @@ source:
     - 0005-Make-private-pkg-config-requirements-public.patch           # [win]
 
 build:
-  number: 1002
+  number: 1003
   binary_has_prefix_files:        # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]
