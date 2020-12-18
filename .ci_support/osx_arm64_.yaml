@@ -7,13 +7,13 @@ c_compiler:
 c_compiler_version:
 - '11'
 channel_sources:
-- conda-forge/label/rust_dev,conda-forge,https://conda-web.anaconda.org/conda-forge
+- conda-forge/label/rust_dev,conda-forge
 channel_targets:
 - conda-forge main
 freetype:
 - '2'
 icu:
-- '67'
+- '68'
 libiconv:
 - '1.16'
 libpng:
