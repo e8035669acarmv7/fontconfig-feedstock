@@ -21,7 +21,7 @@ source:
     - 0005-Make-private-pkg-config-requirements-public.patch           # [win]
 
 build:
-  number: 1003
+  number: 1004
   binary_has_prefix_files:        # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]
@@ -43,22 +43,12 @@ requirements:
     - {{ native }}pkg-config
     - {{ native }}xz
     - posix                              # [win]
-    - {{ compiler('c') }}                # [not win]
-    - vs2015_win-64                      # [win] -- no VS2008 since it's too much of a hassle to support
+    - {{ compiler('c') }}
     - make
   host:
     - freetype
-    - icu
-    - libpng
     - libxml2
-    - libiconv  # [not linux]
-    - libuuid   # [linux]
-  run:
-    - freetype
-    - icu
-    - libpng
-    - libxml2
-    - libiconv  # [not linux]
+    - libiconv  # [win]
     - libuuid   # [linux]
 
 test:

@@ -12,12 +12,6 @@ channel_targets:
 - conda-forge main
 freetype:
 - '2'
-icu:
-- '68'
-libiconv:
-- '1.16'
-libpng:
-- '1.6'
 libxml2:
 - '2.9'
 macos_machine:
@@ -25,10 +19,6 @@ macos_machine:
 pin_run_as_build:
   freetype:
     max_pin: x
-  libiconv:
-    max_pin: x.x
-  libpng:
-    max_pin: x.x
   libxml2:
     max_pin: x.x
 target_platform:
