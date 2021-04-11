@@ -21,7 +21,7 @@ source:
     - 0005-Make-private-pkg-config-requirements-public.patch           # [win]
 
 build:
-  number: 1004
+  number: 1005
   binary_has_prefix_files:        # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]
@@ -29,6 +29,7 @@ build:
     # remove symbols basically never (once, in 2006).
     #    https://abi-laboratory.pro/tracker/timeline/fontconfig/
     - {{ pin_subpackage('fontconfig') }}
+    - fonts-conda-ecosystem
 
 requirements:
   build:
