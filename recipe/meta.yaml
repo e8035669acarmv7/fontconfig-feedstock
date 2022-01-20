@@ -1,4 +1,4 @@
-{% set version = "2.13.1" %}
+{% set version = "2.13.94" %}
 {% set am_version = "1.15" %} # keep synchronized with build.sh
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-{{ version }}.tar.bz2
-  sha256: f655dd2a986d7aa97e052261b36aa67b0a64989496361eca8d604e6414006741
+  sha256: 246d1640a7e54fba697b28e4445f4d9eb63dda1b511d19986249368ee7191882
   patches:
     # This patch won't be submitted upstream. It's use here is to ensure the prefix used
     # to refer to the `fonts.conf` file.
