@@ -8,7 +8,7 @@ package:
   version: {{ version }}
 
 source:
-  url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-{{ version }}.tar.bz2
+  url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-{{ version }}.tar.gz
   sha256: 246d1640a7e54fba697b28e4445f4d9eb63dda1b511d19986249368ee7191882
   patches:
     # This patch won't be submitted upstream. It's use here is to ensure the prefix used
