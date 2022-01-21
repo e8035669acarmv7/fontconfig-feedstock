@@ -20,7 +20,7 @@ source:
     - 0004-SMB-getopt.h-also-add-this.patch                            # [win]
 
 build:
-  number: 1000
+  number: 0
   binary_has_prefix_files:        # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]
