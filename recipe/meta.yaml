@@ -18,7 +18,6 @@ source:
     - 0002-Disable-some-more-Windows-unfriendly-tests.patch            # [win]
     - 0003-Import-MSVC-compatibility-files-from-ShiftMediaProje.patch  # [win]
     - 0004-SMB-getopt.h-also-add-this.patch                            # [win]
-    - 0005-Make-private-pkg-config-requirements-public.patch           # [win]
 
 build:
   number: 1000
