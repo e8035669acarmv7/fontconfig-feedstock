@@ -15,7 +15,7 @@ source:
     # to refer to the `fonts.conf` file.
     - fcf.patch       # [linux]
     - 0001-Disable-test-bz106632.patch                                 # [win or osx]
-    - 0002-Disable-some-more-Windows-unfriendly-tests.patch            # [win]
+    - 0002-Disable-some-more-Windows-unfriendly-tests.patch            # [win or linux]
     - 0003-Import-MSVC-compatibility-files-from-ShiftMediaProje.patch  # [win]
     - 0004-SMB-getopt.h-also-add-this.patch                            # [win]
 

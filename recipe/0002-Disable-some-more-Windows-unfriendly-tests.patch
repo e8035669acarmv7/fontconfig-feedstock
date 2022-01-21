@@ -1,7 +1,10 @@
 From ed82c63c43018dc8c1270f12f6d667bafd232e4d Mon Sep 17 00:00:00 2001
 From: Peter Williams <peter@newton.cx>
 Date: Tue, 11 Sep 2018 12:51:29 -0400
-Subject: [PATCH 2/5] Disable some more Windows-unfriendly tests.
+Subject: [PATCH 2/5] Disable some more [Windows-unfriendly] tests.
+
+This test now also casues problems on Linux since it requires `unzip`, which isn't
+in our image.
 
 diff --git a/test/Makefile.am b/test/Makefile.am
 index 99b5387..dd129a6 100644
