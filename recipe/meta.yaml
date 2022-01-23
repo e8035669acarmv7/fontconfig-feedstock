@@ -47,6 +47,7 @@ requirements:
     - posix                              # [win]
     - {{ compiler('c') }}
     - make
+    - python
   host:
     - freetype
     - libxml2
