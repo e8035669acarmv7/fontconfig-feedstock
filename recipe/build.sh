@@ -86,11 +86,15 @@ fi
 
 make -j${CPU_COUNT} ${VERBOSE_AT}
 if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
-if [ "${target_platform}" == "linux-aarch64" ] || [ "${target_platform}" == "linux-ppc64le" ]; then
-    make check ${VERBOSE_AT} || true
-else
-    make check ${VERBOSE_AT}
-fi
+  if [ "${target_platform}" == "linux-aarch64" ] || [ "${target_platform}" == "linux-ppc64le" ]; then
+      make check ${VERBOSE_AT} || true
+  elif [ -n "$CYGWIN_PREFIX" ] ; then
+      # Test suite currently(2.13.94) non-functional on Windows due to:
+      # https://gitlab.freedesktop.org/fontconfig/fontconfig/-/issues/307
+      true
+  else
+      make check ${VERBOSE_AT}
+  fi
 fi
 
 make install

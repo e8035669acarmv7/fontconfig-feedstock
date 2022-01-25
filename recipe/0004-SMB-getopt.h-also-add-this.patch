@@ -674,11 +674,11 @@ index 0000000..0cb8889
 +
 +#endif /* !defined(__UNISTD_H_SOURCED__) && !defined(__GETOPT_LONG_H__) */
 diff --git a/configure.ac b/configure.ac
-index 00c1cc5..436b6ce 100644
+index ef50676..c0ac656 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -39,6 +39,9 @@ AC_INIT([fontconfig], [2.13.1], [https://gitlab.freedesktop.org/fontconfig/fontc
- AM_INIT_AUTOMAKE([1.11 parallel-tests dist-bzip2])
+@@ -39,6 +39,9 @@ AC_INIT([fontconfig], [2.13.94], [https://gitlab.freedesktop.org/fontconfig/font
+ AM_INIT_AUTOMAKE([1.11 parallel-tests dist-xz])
  m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
  
 +ac_cv_func_getopt=yes
@@ -687,6 +687,3 @@ index 00c1cc5..436b6ce 100644
  dnl ==========================================================================
  
  AC_CONFIG_HEADERS(config.h)
--- 
-2.17.1
-
