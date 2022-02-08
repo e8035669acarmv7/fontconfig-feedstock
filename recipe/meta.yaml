@@ -19,7 +19,6 @@ source:
     - 0003-Import-MSVC-compatibility-files-from-ShiftMediaProje.patch  # [win]
     - 0004-SMB-getopt.h-also-add-this.patch                            # [win]
     - 0005-Fix-issue107-windows.patch                                  # [win]
-    - backport-889097353ecd7b061ae7cf677e3db56db77a135f.patch
 
 build:
   number: 0
