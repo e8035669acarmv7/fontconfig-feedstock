@@ -1,4 +1,4 @@
-{% set version = "2.13.94" %}
+{% set version = "2.13.96" %}
 {% set am_version = "1.15" %} # keep synchronized with build.sh
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-{{ version }}.tar.gz
-  sha256: 246d1640a7e54fba697b28e4445f4d9eb63dda1b511d19986249368ee7191882
+  sha256: dbabc038d41cfc3f14da1b173ae103ba7cc678efb17e091b9e801c6286b3f684
   patches:
     # This patch won't be submitted upstream. It's use here is to ensure the prefix used
     # to refer to the `fonts.conf` file.
@@ -19,11 +19,10 @@ source:
     - 0003-Import-MSVC-compatibility-files-from-ShiftMediaProje.patch  # [win]
     - 0004-SMB-getopt.h-also-add-this.patch                            # [win]
     - 0005-Fix-issue107-windows.patch                                  # [win]
-    - backport-889097353ecd7b061ae7cf677e3db56db77a135f.patch
 
 build:
   number: 0
-  binary_has_prefix_files:        # [unix]
+  binary_has_prefix_files:   # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]
   run_exports:
@@ -78,7 +77,7 @@ about:
   home: http://www.freedesktop.org/wiki/Software/fontconfig/
   license: MIT
   license_file: COPYING
-  summary: 'A library for configuring and customizing font access'
+  summary: A library for configuring and customizing font access
   description: |
     Fontconfig is a library designed to provide system-wide font configuration,
     customization and application access.
