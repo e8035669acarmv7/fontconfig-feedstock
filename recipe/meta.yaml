@@ -14,11 +14,8 @@ source:
     # This patch won't be submitted upstream. It's use here is to ensure the prefix used
     # to refer to the `fonts.conf` file.
     - fcf.patch       # [linux]
-    - 0001-Disable-test-bz106632.patch                                 # [win or osx]
-    - 0002-Disable-some-more-Windows-unfriendly-tests.patch
-    - 0003-Import-MSVC-compatibility-files-from-ShiftMediaProje.patch  # [win]
-    - 0004-SMB-getopt.h-also-add-this.patch                            # [win]
-    - 0005-Fix-issue107-windows.patch                                  # [win]
+    - 0001-Disable-test-bz106632.patch  # [osx]
+    - windows-compat.patch         # [win]
 
 build:
   number: 0
@@ -33,37 +30,28 @@ build:
 
 requirements:
   build:
-    - {{ posix }}autoconf
-    - {{ posix }}automake{{ am_version }}  # [win]
-    - automake                           # [not win]
-    - gettext
-    - {{ posix }}gperf
-    - {{ posix }}libtool
-    - {{ posix }}patch
-    - {{ native }}binutils                 # [win]
-    - {{ native }}pkg-config
-    - {{ native }}xz
-    - posix                              # [win]
     - {{ compiler('c') }}
-    - make
+    - {{ posix }}gperf
+    - meson
+    - ninja
     - python
   host:
+    - expat
     - freetype
-    - libxml2
     - libiconv  # [win]
     - libuuid   # [linux]
 
 test:
   commands:
     # Test CLI.
-    - fc-cache --help
-    - fc-cat --help
-    - fc-list --help
-    - fc-match --help
-    - fc-pattern --help
-    - fc-query --help
-    - fc-scan --help
-    - fc-validate --help
+    - fc-cache --help  # [not win]
+    - fc-cat --help  # [not win]
+    - fc-list
+    - fc-match --help  # [not win]
+    - fc-pattern --help  # [not win]
+    - fc-query --help  # [not win]
+    - fc-scan --help  # [not win]
+    - fc-validate --help  # [not win]
 
     # Test for libraries.
     {% set lib_idents = [ "fontconfig" ] %}
