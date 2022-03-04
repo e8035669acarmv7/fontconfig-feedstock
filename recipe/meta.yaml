@@ -1,5 +1,4 @@
 {% set version = "2.13.96" %}
-{% set am_version = "1.15" %} # keep synchronized with build.sh
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -11,11 +10,9 @@ source:
   url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-{{ version }}.tar.gz
   sha256: dbabc038d41cfc3f14da1b173ae103ba7cc678efb17e091b9e801c6286b3f684
   patches:
-    # This patch won't be submitted upstream. It's use here is to ensure the prefix used
-    # to refer to the `fonts.conf` file.
-    - fcf.patch       # [linux]
-    - 0001-Disable-test-bz106632.patch  # [osx]
-    - windows-compat.patch         # [win]
+    # This patch won't be submitted upstream. It sets us up to always find the right `fonts.conf` file:
+    - fcf.patch             # [linux]
+    - windows-compat.patch  # [win]
 
 build:
   number: 0
@@ -34,6 +31,7 @@ requirements:
     - {{ posix }}gperf
     - meson
     - ninja
+    - {{ native }}pkg-config
     - python
   host:
     - expat
@@ -58,7 +56,8 @@ test:
     {% for lib_ident in lib_idents %}
     - test -f $PREFIX/lib/lib{{ lib_ident }}.a  # [not win]
     - test -f $PREFIX/lib/lib{{ lib_ident }}${SHLIB_EXT}  # [not win]
-    - if not exist %PREFIX%/Library/lib/{{ lib_ident }}.lib exit /b 1  # [win]
+    - if not exist %PREFIX%/Library/lib/{{ lib_ident }}.lib exit /b 1    # [win]
+    - if not exist %PREFIX%/Library/bin/{{ lib_ident }}-1.dll exit /b 1  # [win]
     {% endfor %}
 
 about:
