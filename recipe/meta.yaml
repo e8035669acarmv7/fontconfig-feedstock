@@ -1,5 +1,4 @@
 {% set version = "2.13.96" %}
-{% set am_version = "1.15" %} # keep synchronized with build.sh
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -11,17 +10,12 @@ source:
   url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-{{ version }}.tar.gz
   sha256: dbabc038d41cfc3f14da1b173ae103ba7cc678efb17e091b9e801c6286b3f684
   patches:
-    # This patch won't be submitted upstream. It's use here is to ensure the prefix used
-    # to refer to the `fonts.conf` file.
-    - fcf.patch       # [linux]
-    - 0001-Disable-test-bz106632.patch                                 # [win or osx]
-    - 0002-Disable-some-more-Windows-unfriendly-tests.patch
-    - 0003-Import-MSVC-compatibility-files-from-ShiftMediaProje.patch  # [win]
-    - 0004-SMB-getopt.h-also-add-this.patch                            # [win]
-    - 0005-Fix-issue107-windows.patch                                  # [win]
+    # This patch won't be submitted upstream. It sets us up to always find the right `fonts.conf` file:
+    - fcf.patch             # [linux]
+    - windows-compat.patch  # [win]
 
 build:
-  number: 0
+  number: 1
   binary_has_prefix_files:   # [unix]
     - lib/libfontconfig.so.1.*    # [linux]
     - lib/libfontconfig.*.dylib*  # [osx]
@@ -33,44 +27,37 @@ build:
 
 requirements:
   build:
-    - {{ posix }}autoconf
-    - {{ posix }}automake{{ am_version }}  # [win]
-    - automake                           # [not win]
-    - gettext
-    - {{ posix }}gperf
-    - {{ posix }}libtool
-    - {{ posix }}patch
-    - {{ native }}binutils                 # [win]
-    - {{ native }}pkg-config
-    - {{ native }}xz
-    - posix                              # [win]
     - {{ compiler('c') }}
-    - make
+    - {{ posix }}gperf
+    - meson
+    - ninja
+    - {{ native }}pkg-config
     - python
   host:
+    - expat
     - freetype
-    - libxml2
     - libiconv  # [win]
     - libuuid   # [linux]
 
 test:
   commands:
     # Test CLI.
-    - fc-cache --help
-    - fc-cat --help
-    - fc-list --help
-    - fc-match --help
-    - fc-pattern --help
-    - fc-query --help
-    - fc-scan --help
-    - fc-validate --help
+    - fc-cache --help  # [not win]
+    - fc-cat --help  # [not win]
+    - fc-list
+    - fc-match --help  # [not win]
+    - fc-pattern --help  # [not win]
+    - fc-query --help  # [not win]
+    - fc-scan --help  # [not win]
+    - fc-validate --help  # [not win]
 
     # Test for libraries.
     {% set lib_idents = [ "fontconfig" ] %}
     {% for lib_ident in lib_idents %}
     - test -f $PREFIX/lib/lib{{ lib_ident }}.a  # [not win]
     - test -f $PREFIX/lib/lib{{ lib_ident }}${SHLIB_EXT}  # [not win]
-    - if not exist %PREFIX%/Library/lib/{{ lib_ident }}.lib exit /b 1  # [win]
+    - if not exist %PREFIX%/Library/lib/{{ lib_ident }}.lib exit /b 1    # [win]
+    - if not exist %PREFIX%/Library/bin/{{ lib_ident }}-1.dll exit /b 1  # [win]
     {% endfor %}
 
 about:
