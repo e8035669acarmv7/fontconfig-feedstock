@@ -17,5 +17,9 @@ macos_machine:
 pin_run_as_build:
   freetype:
     max_pin: x
+  zlib:
+    max_pin: x.x
 target_platform:
 - osx-64
+zlib:
+- '1.2'
