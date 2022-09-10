@@ -38,6 +38,7 @@ requirements:
     - freetype
     - libiconv  # [win]
     - libuuid   # [linux]
+    - zlib
 
 test:
   commands:
