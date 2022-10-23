@@ -78,3 +78,16 @@ index 8d1ad85..a802a03 100644
  	}
  #endif
      dir = (FcChar8 *) FONTCONFIG_PATH;
+diff --git a/meson.build b/meson.build
+index 6453d8c..69861f7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -334,7 +334,7 @@ else
+   @1@
+   '''
+   gperf_snippet_format = 'echo foo,bar | @0@ -L ANSI-C'
+-  gperf_snippet = run_command(sh, '-c', gperf_snippet_format.format(gperf.full_path()),
++  gperf_snippet = run_command(sh, '-c', gperf_snippet_format.format(fs.as_posix(gperf.full_path())),
+     check: true)
+   gperf_test = gperf_test_format.format('size_t', gperf_snippet.stdout())
+ 
