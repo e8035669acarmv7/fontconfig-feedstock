@@ -16,13 +16,6 @@ freetype:
 - '2'
 libuuid:
 - '2'
-pin_run_as_build:
-  freetype:
-    max_pin: x
-  libuuid:
-    max_pin: x
-  zlib:
-    max_pin: x.x
 target_platform:
 - linux-64
 zlib:
