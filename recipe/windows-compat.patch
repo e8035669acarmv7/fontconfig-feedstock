@@ -3,10 +3,10 @@
 - conda-forge needs different logic for location fonts.conf in the non-DLL case
 
 diff --git a/src/cutout.py b/src/cutout.py
-index 323eec8..55a3905 100644
+index 6b46529..832e961 100644
 --- a/src/cutout.py
 +++ b/src/cutout.py
-@@ -28,7 +28,7 @@ if __name__== '__main__':
+@@ -29,7 +29,7 @@ if __name__== '__main__':
  
      stdout = ret.stdout.decode('utf8')
  
@@ -44,10 +44,10 @@ index 11e759a..e6e8ae5 100644
 +
 +        shutil.copyfile(src, dst)
 diff --git a/src/fccfg.c b/src/fccfg.c
-index 8d1ad85..a802a03 100644
+index f62e228..a0ca4a0 100644
 --- a/src/fccfg.c
 +++ b/src/fccfg.c
-@@ -2455,9 +2455,27 @@ FcConfigGetPath (void)
+@@ -2460,9 +2460,27 @@ FcConfigGetPath (void)
  		char *p;
  		if(!GetModuleFileName(NULL, (LPCH) fontconfig_path, sizeof(fontconfig_path)))
  			goto bail1;
@@ -78,16 +78,3 @@ index 8d1ad85..a802a03 100644
  	}
  #endif
      dir = (FcChar8 *) FONTCONFIG_PATH;
-diff --git a/meson.build b/meson.build
-index 6453d8c..69861f7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -334,7 +334,7 @@ else
-   @1@
-   '''
-   gperf_snippet_format = 'echo foo,bar | @0@ -L ANSI-C'
--  gperf_snippet = run_command(sh, '-c', gperf_snippet_format.format(gperf.full_path()),
-+  gperf_snippet = run_command(sh, '-c', gperf_snippet_format.format(fs.as_posix(gperf.full_path())),
-     check: true)
-   gperf_test = gperf_test_format.format('size_t', gperf_snippet.stdout())
- 

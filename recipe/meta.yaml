@@ -1,4 +1,4 @@
-{% set version = "2.14.1" %}
+{% set version = "2.14.2" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -8,7 +8,7 @@ package:
 
 source:
   url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-{{ version }}.tar.gz
-  sha256: ae480e9ca34382790312ff062c625ec70df94d6d9a9366e2b2b3d525f7f90387
+  sha256: 3ba2dd92158718acec5caaf1a716043b5aa055c27b081d914af3ccb40dce8a55
   patches:
     # This patch won't be submitted upstream. It sets us up to always find the right Conda files:
     - linux-custom-paths.patch  # [linux]
